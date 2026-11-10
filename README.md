@@ -47,10 +47,10 @@
 
 ## Download
 
-Latest release — **v3.3.5**:
+Latest release — **v3.3.5** ([release page](https://github.com/Outcastors/rogue/releases/tag/v3.3.5)):
 
-- [Rogue-3.3.5-linux-x86_64.AppImage](https://gofile.io/d/sqMQo15H) — needs FUSE; `chmod +x` and run.
-- [Rogue-3.3.5-portable.zip](https://gofile.io/d/U9vB4Dsg) — extract anywhere and run `Launch-Rogue.sh`. No install, no FUSE, no root.
+- [Rogue-3.3.5-linux-x86_64.AppImage](https://github.com/Outcastors/rogue/releases/download/v3.3.5/Rogue-3.3.5-linux-x86_64.AppImage) — needs FUSE; `chmod +x` and run.
+- [Rogue-3.3.5-portable.zip](https://github.com/Outcastors/rogue/releases/download/v3.3.5/Rogue-3.3.5-portable.zip) — extract anywhere and run `Launch-Rogue.sh`. No install, no FUSE, no root.
 
 ## Build from source
 
