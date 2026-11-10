@@ -1,0 +1,58 @@
+{
+  "author": {
+    "email": "twilight@asuralegion.org",
+    "name": "Twilight"
+  },
+  "build": {
+    "appId": "com.rogue.app",
+    "appImage": {
+      "artifactName": "Rogue-${version}-linux-${arch}.${ext}"
+    },
+    "asarUnpack": [
+      "node_modules/node-pty/**/*"
+    ],
+    "deb": {
+      "artifactName": "rogue_${version}_${arch}.${ext}"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "deps.js",
+      "ui/**/*",
+      "assets/**/*",
+      "package.json",
+      "node_modules/node-pty/**/*"
+    ],
+    "linux": {
+      "category": "Development",
+      "description": "Rogue \u2014 cyber agent workstation: OpenCode, terminal, MCPs, hunter agent.",
+      "icon": "assets/icon.png",
+      "maintainer": "Twilight <twilight@asuralegion.org>",
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    },
+    "productName": "Rogue"
+  },
+  "dependencies": {
+    "node-pty": "^1.1.0"
+  },
+  "description": "Rogue \u2014 OpenCode workstation: direct enter, terminal, MCPs, hunter agent.",
+  "devDependencies": {
+    "electron": "^38.0.0",
+    "electron-builder": "^26.0.0",
+    "ws": "^8.22.0"
+  },
+  "homepage": "https://asuralegion.org",
+  "license": "MIT",
+  "main": "main.js",
+  "name": "rogue",
+  "productName": "Rogue",
+  "scripts": {
+    "dist": "electron-builder --linux AppImage deb",
+    "start": "electron .",
+    "postinstall": "node scripts/unpack-assets.js"
+  },
+  "version": "3.3.5"
+}

@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rogue</title>
+<link rel="stylesheet" href="vendor/xterm.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="topbar">
+  <div class="logo"><img class="logo-img" src="../assets/icon.png" alt="Rogue logo">ROGUE<span id="app-ver" title="App version">v…</span></div>
+  <div class="tabs">
+    <button class="tab active" data-view="view-home">Home</button>
+    <button class="tab" data-view="view-opencode">OpenCode</button>
+    <button class="tab" data-view="view-terminal">Terminal</button>
+    <button class="tab" data-view="view-arsenal">Arsenal</button>
+  </div>
+  <button class="btn ghost small" id="btn-cheatsheet" title="Keyboard shortcuts (Ctrl+?)">?</button>
+  <button class="btn ghost small" id="btn-theme" title="Switch to light theme">☀</button>
+  <div id="engine-pill"><span class="dot"></span><span id="engine-text">idle</span></div>
+</div>
+
+<!-- HOME -->
+<div id="view-home" class="view active flex">
+  <div class="hero">
+    <h1>PICK YOUR <span class="r">WEAPON.</span></h1>
+    <p>// opencode runs direct, no login — your cyber agent.</p>
+  </div>
+  <div class="cards">
+    <div class="card">
+      <div class="badge">engine_01 // no login</div>
+      <h2>OPEN<span class="r">CODE</span></h2>
+      <p class="desc">Jump straight in — no login required. Full agent engine: edit files, run commands, multi-session.</p>
+      <ul>
+        <li>direct enter — zero sign-in</li>
+        <li>keys via setup wizard, models via arsenal</li>
+        <li>hunter agent for security audits</li>
+      </ul>
+      <div class="folder-row">
+        <span style="color:var(--faint)">working&nbsp;folder:</span>
+        <span class="path" id="oc-folder">~</span>
+        <button id="oc-pick">change</button>
+        <button id="oc-newfolder" title="Create a folder in the working directory">＋ new folder</button>
+      </div>
+      <div class="folder-row">
+        <span style="color:var(--faint)">ai&nbsp;provider:</span>
+        <span class="path" id="oc-providers">checking…</span>
+        <button id="oc-setup-keys">setup keys</button>
+      </div>
+      <div class="recent-row" id="recent-row" style="display:none">
+        <span style="color:var(--faint);font-size:11px">recent:</span>
+        <span id="recent-chips" style="display:flex;gap:6px;flex-wrap:wrap"></span>
+      </div>
+      <div class="row">
+        <button class="btn" id="btn-opencode">▶ Enter OpenCode</button>
+      </div>
+      <div class="status" id="oc-status"></div>
+      <div class="progress" id="oc-progress"><i id="oc-progress-bar"></i></div>
+    </div>
+    <div class="card wa-home">
+      <div class="badge">community // follow us</div>
+      <h2>JOIN <span class="g">OUTCASTORS</span></h2>
+      <p class="desc">Cybersecurity collective. Daily resources, job drops and free labs — learn with people like you.</p>
+      <ul>
+        <li>daily resources &amp; job drops</li>
+        <li>free labs, beginner → advanced</li>
+        <li>zero fees, zero spam</li>
+      </ul>
+      <div class="row">
+        <button class="wa-join-btn" id="btn-wa-join">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="#fff" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.6-6.1c-.3-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4 0-.5.1-.7l.5-.6c.1-.2.1-.3 0-.5l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1.1 2.7c.1.2 1.9 2.9 4.5 4 .6.3 1.1.4 1.5.6.6.2 1.2.2 1.6.1.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3z"/></svg>
+          Join Outcastors on WhatsApp
+        </button>
+        <button class="li-join-btn" id="btn-li-outcastors">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="#fff" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+          Outcastors on LinkedIn
+        </button>
+        <button class="gh-join-btn" id="btn-gh-outcastors">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="#fff" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+          Outcastors on GitHub
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="settings-strip">
+    <label class="switch"><input type="checkbox" id="set-autoboot"><span>auto-boot engine on launch</span></label>
+    <label class="switch"><input type="checkbox" id="set-tray"><span>minimize to tray on close</span></label>
+    <label class="switch"><input type="checkbox" id="set-hotkey" checked><span>global hotkey Ctrl+Alt+A</span></label>
+    <button class="btn ghost small" id="btn-desktop">install launcher icon</button>
+  </div>
+  <div class="note">
+    rogue — opencode workstation · linux build<br>
+    opencode © anomaly (mit) · this shell just launches it, no code copied
+  </div>
+</div>
+
+<!-- OPENCODE -->
+<div id="view-opencode" class="view">
+  <div id="oc-bar">
+    <span class="live">●</span><span>opencode engine live</span>
+    <span id="oc-bar-folder" style="color:var(--faint)"></span>
+    <button class="btn ghost small" id="btn-oc-newfolder" title="Create a folder in the working directory">＋ new folder</button>
+    <span style="margin-left:auto"></span>
+    <select id="oc-model-quick" class="sel" title="Default model (restart engine to apply)" style="font-size:11px;padding:6px 8px"></select>
+    <button class="btn ghost small" id="btn-oc-restart">restart engine</button>
+    <button class="btn ghost small" id="btn-oc-home">◀ home</button>
+  </div>
+  <iframe id="oc-frame" title="OpenCode"></iframe>
+</div>
+
+<!-- TERMINAL -->
+<div id="view-terminal" class="view">
+  <div id="term-bar">
+    <span style="font-family:var(--mono);font-size:12px;color:var(--dim)">◈ embedded terminal</span>
+    <span id="term-cwd" style="font-family:var(--mono);font-size:11px;color:var(--faint)"></span>
+    <span style="margin-left:auto"></span>
+    <button class="btn ghost small" id="btn-term-opencode">▶ opencode TUI</button>
+    <button class="btn ghost small" id="btn-term-reconnect">reconnect</button>
+  </div>
+  <div id="term-tabs"><button class="btn ghost small" id="btn-term-newtab" title="New terminal tab">＋</button></div>
+  <div id="term-snippets">
+    <input id="snp-name" class="inp" placeholder="snippet name" style="width:130px">
+    <input id="snp-cmd" class="inp grow" placeholder="command to save">
+    <button class="btn ghost small" id="snp-add">save</button>
+    <span id="snp-chips" style="display:flex;gap:6px;flex-wrap:wrap"></span>
+  </div>
+  <div id="term-wrap"></div>
+</div>
+
+<!-- ARSENAL -->
+<div id="view-arsenal" class="view">
+  <div class="arsenal-wrap">
+    <h2 class="arsenal-title">☠ ARSENAL <span style="color:var(--faint);font-size:14px">// mission control</span></h2>
+    <div class="ars-grid">
+      <div class="ars-card">
+        <h3>◈ AI Providers</h3>
+        <div id="ars-providers" class="kv-list"></div>
+        <button class="btn ghost small" id="ars-keys">setup keys</button>
+      </div>
+      <div class="ars-card">
+        <h3>◈ Default Model</h3>
+        <p class="ars-desc">Every new session starts with this model.</p>
+        <div class="row">
+          <select id="dm-provider" class="sel"></select>
+          <select id="dm-model" class="sel"></select>
+        </div>
+        <div class="row" style="margin-top:10px">
+          <button class="btn small" id="dm-save">save default</button>
+          <button class="btn ghost small" id="dm-clear">clear</button>
+        </div>
+        <div class="status" id="dm-status"></div>
+      </div>
+      <div class="ars-card">
+        <h3>◈ Usage Meter</h3>
+        <div class="row">
+          <select id="stats-days" class="sel"><option value="7">last 7 days</option><option value="30" selected>last 30 days</option></select>
+          <button class="btn ghost small" id="stats-refresh">refresh</button>
+        </div>
+        <div id="stats-box" class="kv-list" style="margin-top:10px"></div>
+        <div class="row" style="margin-top:10px">
+          <span style="font-family:var(--mono);font-size:11px;color:var(--dim)">daily budget $</span>
+          <input id="budget-input" class="inp" placeholder="e.g. 2.00" style="width:90px">
+          <button class="btn ghost small" id="budget-save">set</button>
+        </div>
+        <div class="status" id="budget-status"></div>
+      </div>
+      <div class="ars-card">
+        <h3>◈ Engine</h3>
+        <div class="kv-list"><div class="kv"><span>version</span><b id="eng-ver">…</b></div></div>
+        <div class="row" style="margin-top:10px">
+          <button class="btn small" id="eng-upgrade">⬆ upgrade engine</button>
+        </div>
+        <pre class="log" id="eng-log" style="display:none"></pre>
+      </div>
+      <div class="ars-card wide">
+        <h3>◈ MCP Servers</h3>
+        <p class="ars-desc">Tools for your agent — local (command) or remote (URL).</p>
+        <div id="mcp-list" class="kv-list"></div>
+        <div class="mcp-form">
+          <input id="mcp-name" placeholder="name (e.g. gh-tools)" class="inp">
+          <select id="mcp-type" class="sel"><option value="local">local</option><option value="remote">remote</option></select>
+          <input id="mcp-cmd" placeholder='command: npx -y @modelcontextprotocol/server-everything' class="inp grow">
+          <input id="mcp-url" placeholder="https://…/mcp (remote only)" class="inp grow" style="display:none">
+          <input id="mcp-env" placeholder="ENV: KEY=val, one per line ok" class="inp">
+          <button class="btn small" id="mcp-add">add</button>
+        </div>
+        <div class="status" id="mcp-status"></div>
+      </div>
+      <div class="ars-card">
+        <h3>◈ Plugins</h3>
+        <p class="ars-desc">Install from an npm module name.</p>
+        <div class="row">
+          <input id="plug-name" placeholder="@scope/opencode-plugin" class="inp grow">
+          <button class="btn small" id="plug-install">install</button>
+        </div>
+        <div id="plug-list" class="kv-list" style="margin-top:10px"></div>
+        <pre class="log" id="plug-log" style="display:none"></pre>
+      </div>
+      <div class="ars-card">
+        <h3>◈ Ollama (offline)</h3>
+        <p class="ars-desc">Local models — zero cloud, zero key.</p>
+        <div class="kv-list"><div class="kv"><span>status</span><b id="ollama-status">checking…</b></div></div>
+        <div class="row" style="margin-top:10px">
+          <button class="btn small" id="ollama-connect">connect ollama</button>
+          <button class="btn ghost small" id="ollama-refresh">refresh</button>
+        </div>
+        <div class="status" id="ollama-msg"></div>
+      </div>
+      <div class="ars-card">
+        <h3>◈ Hunter Agent</h3>
+        <p class="ars-desc">White-hat security auditor subagent — authorized targets only. Invoke with <span class="mono">@hunter</span>.</p>
+        <div class="kv-list"><div class="kv"><span>status</span><b id="hunter-status">…</b></div></div>
+        <div class="row" style="margin-top:10px">
+          <button class="btn small" id="hunter-toggle">install</button>
+        </div>
+      </div>
+      <div class="ars-card wide">
+        <h3>◈ Custom Agents</h3>
+        <p class="ars-desc">Your own subagents — markdown files in <span class="mono">~/.config/opencode/agents/</span>. Invoke any agent with <span class="mono">@name</span>.</p>
+        <div class="kv-list" id="agents-list"><div class="kv"><span>loading…</span><b>—</b></div></div>
+        <div class="row" style="margin-top:10px">
+          <input id="agent-name" class="inp" placeholder="agent name" style="width:150px">
+          <button class="btn small" id="agent-new">＋ new</button>
+          <button class="btn ghost small" id="agent-edit">edit</button>
+        </div>
+        <textarea id="agent-editor" class="inp" rows="8" style="width:100%;margin-top:10px;display:none;font-family:var(--mono);font-size:12px" placeholder="---&#10;description: What this agent does&#10;mode: subagent&#10;---&#10;&#10;System prompt…"></textarea>
+        <div class="row" style="margin-top:10px;display:none" id="agent-editor-row">
+          <button class="btn small" id="agent-save">save</button>
+          <button class="btn ghost small" id="agent-cancel">cancel</button>
+          <button class="btn ghost small" id="agent-delete" style="margin-left:auto">delete</button>
+        </div>
+        <div class="status" id="agents-status"></div>
+      </div>
+      <div class="ars-card wide">
+        <h3>☰ conversation history</h3>
+        <div class="ars-desc">Every session is stored in <span class="mono">~/.local/share/opencode</span> — <b style="color:var(--txt)">it stays until you delete it.</b> The list works even with the engine off.</div>
+        <div class="row" style="margin-bottom:10px">
+          <input id="sess-search" class="inp grow" placeholder="🔍 search sessions…">
+        </div>
+        <div class="kv-list" id="sess-list"><div class="kv"><span>loading…</span><b>—</b></div></div>
+        <div class="row">
+          <button class="btn small" id="sess-refresh">↻ refresh</button>
+        </div>
+        <div class="status" id="sess-status"></div>
+      </div>
+
+      <div class="ars-card">
+        <h3>◈ Sessions Backup</h3>
+        <p class="ars-desc">Backs up all sessions + config. API keys are never included.</p>
+        <button class="btn small" id="btn-backup">⬇ backup now</button>
+        <div class="kv-list" style="margin-top:10px">
+          <div class="kv"><span>auto-backup</span><b id="backup-auto-state">off</b></div>
+          <div class="kv"><span>folder</span><b id="backup-dir" style="max-width:55%;overflow:hidden;text-overflow:ellipsis">—</b></div>
+          <div class="kv"><span>last auto</span><b id="backup-last">—</b></div>
+        </div>
+        <div class="row" style="margin-top:10px">
+          <button class="btn ghost small" id="backup-dir-pick">choose folder</button>
+          <button class="btn ghost small" id="backup-auto-toggle">enable auto</button>
+        </div>
+        <div class="status" id="backup-status"></div>
+      </div>
+      <div class="ars-card wide">
+        <h3>◈ Cyber Prompt Library</h3>
+        <p class="ars-desc">One-click copy, or send directly to the running engine.</p>
+        <div id="prompt-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SETUP WIZARD -->
+<div id="view-setup" class="view">
+  <div class="setup-wrap">
+    <h2>Connect <span style="color:var(--red)">AI Provider</span></h2>
+    <p class="setup-sub">Paste your API key — it stays <b>only on this machine</b>
+      <span class="mono">~/.local/share/opencode/auth.json</span> me save hogi, kahin bheji nahi jayegi.<br>
+      After saving, pick a model in OpenCode with <span class="mono">/models</span>.</p>
+    <div class="prov-grid" id="prov-grid"></div>
+    <div class="key-panel" id="key-panel" style="display:none">
+      <div class="key-head"><span id="key-prov-name"></span><button class="btn ghost small" id="key-cancel">✕</button></div>
+      <div class="row">
+        <input type="password" id="key-input" placeholder="paste API key here…" autocomplete="off" spellcheck="false">
+        <button class="btn small" id="key-save">Save key</button>
+      </div>
+      <div class="status" id="key-status"></div>
+      <div class="key-hint" id="key-hint"></div>
+    </div>
+    <div class="key-panel" id="ollama-panel" style="display:none">
+      <div class="key-head"><span id="ollama-prov-name">Ollama (local)</span><button class="btn ghost small" id="ollama-cancel">✕</button></div>
+      <div class="status" id="ollama-status"></div>
+      <div class="row">
+        <button class="btn small" id="ollama-connect-setup">Connect Ollama</button>
+      </div>
+      <div class="key-hint" id="ollama-hint">Ollama runs on your machine — no API key needed. Install it from ollama.com, then pull a model: ollama pull llama3.1</div>
+    </div>
+    <button class="btn ghost" id="setup-back" style="margin-top:26px">◀ back</button>
+  </div>
+</div>
+
+<!-- global overlays: must live outside the views — a hidden view hides its children -->
+<div id="cheatsheet" style="display:none">
+  <div id="cheatsheet-box">
+    <h3>⌨ keyboard shortcuts</h3>
+    <div class="kv-list">
+      <div class="kv"><span>Ctrl+1 … Ctrl+4</span><b>Home / OpenCode / Terminal / Arsenal</b></div>
+      <div class="kv"><span>Ctrl+Alt+A</span><b>show / hide Rogue (global)</b></div>
+      <div class="kv"><span>Ctrl+?</span><b>this cheatsheet</b></div>
+      <div class="kv"><span>Ctrl+F4</span><b>close terminal tab / close window</b></div>
+      <div class="kv"><span>Esc</span><b>close cheatsheet</b></div>
+    </div>
+    <div class="row" style="margin-top:14px"><button class="btn small" id="cheatsheet-close">close</button></div>
+  </div>
+</div>
+<div id="toasts"></div>
+
+<!-- Themed confirm dialog (replaces the native white confirm box) -->
+<div class="modal-overlay" id="confirm-overlay" style="display:none">
+  <div class="modal">
+    <h3 id="confirm-title">Are you sure?</h3>
+    <p id="confirm-msg"></p>
+    <div class="row" style="justify-content:flex-end">
+      <button class="btn ghost" id="confirm-cancel">Cancel</button>
+      <button class="btn" id="confirm-ok">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- Themed name prompt (same look as the confirm dialog) -->
+<div class="modal-overlay" id="prompt-overlay" style="display:none">
+  <div class="modal">
+    <h3 id="prompt-title">New folder</h3>
+    <p id="prompt-msg"></p>
+    <input id="prompt-input" autocomplete="off" spellcheck="false" placeholder="folder-name">
+    <div class="row" style="justify-content:flex-end">
+      <button class="btn ghost" id="prompt-cancel">Cancel</button>
+      <button class="btn" id="prompt-ok">Create</button>
+    </div>
+  </div>
+</div>
+
+<script src="vendor/xterm.js"></script>
+<script src="vendor/xterm-addon-fit.js"></script>
+<script src="shell.js"></script>
+</body>
+</html>
